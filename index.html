@@ -1,0 +1,112 @@
+<head>	
+	<style type="text/css">
+		#myCanvas {
+			border: solid;
+			margin: 0 auto;
+			display: block;
+			}
+		#pontuacao {
+			margin: 0 auto;
+			display: table;
+		}	
+	
+	</style>
+
+</head>
+<body>
+	<div>
+	<canvas id="myCanvas" width="200" height="200" ></canvas>
+	<span id="pontuacao"> 0 Pontos</span>
+	</div>
+	
+	
+	<script>
+	var c = document.getElementById("myCanvas");
+	var ctx = c.getContext("2d");		
+	var pegouFruta = false;	
+	var pontuacao = 0;
+	var jogador = {
+		x: 0,
+		y: 0
+	}
+	
+	var fruta = {
+		x: Math.floor(Math.random() * 19) + '0',
+		y: Math.floor(Math.random() * 19) + '0'
+	}
+	
+	desenhaOPonto(jogador.x, jogador.y);
+	desenhaFruta();	
+	ctx.stroke();
+	
+	window.addEventListener('keydown', this.check, false);
+
+	function check(e) {		
+		switch (e.keyCode) {
+			case 37:
+				if(jogador.x != 0){
+					jogador.x = jogador.x - 10;
+				}else{
+					jogador.x = 190;
+				}				
+			break;
+			
+			case 38:
+				if(jogador.y != 0){
+					jogador.y = jogador.y - 10;
+				}else{
+					jogador.y = 190;
+				}								
+			break;
+			
+			case 39:				
+				if(jogador.x != 190){
+					jogador.x = jogador.x + 10;
+				}else{
+					jogador.x = 0;
+				}
+				
+			break;
+			
+			case 40:				
+				if(jogador.y != 190){
+					jogador.y = jogador.y + 10;
+				}else {
+					jogador.y = 0;
+				}				
+			break;		
+			
+			}			
+			desenhaOPonto(jogador.x, jogador.y);
+			
+	}
+	
+	function desenhaOPonto (x , y){
+		ctx.clearRect(0, 0, c.width, c.height);				
+		
+		desenhaFruta();		
+		
+		if(jogador.x == fruta.x && jogador.y == fruta.y){
+			fruta.x = Math.floor(Math.random() * 19) + '0';
+			fruta.y = Math.floor(Math.random() * 19) + '0';	
+			
+			pontuacao = pontuacao + 1;
+			document.getElementById("pontuacao").innerText = pontuacao + " Pontos";
+		}
+		
+		ctx.fillStyle = 'green';
+		ctx.fillRect(x,y,10,10);
+	}
+	
+	function desenhaFruta(){
+		ctx.fillStyle = 'red';
+		ctx.fillRect(fruta.x, fruta.y, 10, 10);
+	}
+	
+	
+	
+	setInterval(desenhaFruta, 10);
+	
+	</script>
+
+</body>
